@@ -9,7 +9,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  *
@@ -17,7 +20,7 @@ import java.util.function.Consumer;
  */
 public class PostingList {
 
-    private List<Posting> postinglist = new List<Posting>() {
+    private List<Posting> postingList = new List<Posting>() {
         @Override
         public void forEach(Consumer<? super Posting> action) {
             List.super.forEach(action); //To change body of generated methods, choose Tools | Templates.
@@ -138,4 +141,5 @@ public class PostingList {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     };
+
 }

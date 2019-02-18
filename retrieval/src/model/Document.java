@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author puspaingtyas
+ * @author admin
  */
 public class Document {
 
@@ -17,20 +17,12 @@ public class Document {
     public Document() {
     }
 
-    public Document(int id, String content) {
-        this.id = id;
+    public Document(String content) {
         this.content = content;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public Document(int id, String content) {
         this.id = id;
-    }
-
-    public Document(String content) {
         this.content = content;
     }
 
@@ -48,7 +40,22 @@ public class Document {
         this.content = content;
     }
 
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String[] getListofTerm() {
         return null;
     }
+
 }

@@ -17,11 +17,18 @@ public class Posting {
         this.document = document;
     }
 
+    /**
+     * @return the document
+     */
     public Document getDocument() {
         return document;
     }
 
+    /**
+     * @param document the document to set
+     */
     public void setDocument(Document document) {
         this.document = document;
     }
+
 }
