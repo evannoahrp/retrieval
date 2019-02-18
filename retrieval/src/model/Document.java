@@ -55,7 +55,7 @@ public class Document {
     }
     
     public String[] getListofTerm() {
-        return content.split(" ");
+        return content.split("[ .]");
     }
     
 }
