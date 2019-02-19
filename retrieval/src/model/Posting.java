@@ -9,11 +9,11 @@ package model;
  *
  * @author admin
  */
-public class Posting {
-
+public class Posting implements Comparable<Posting>{
     private String term;
     private Document document;
-
+    
+    
     public Posting(Document document) {
         this.document = document;
     }
@@ -22,6 +22,7 @@ public class Posting {
         this.term = term;
         this.document = document;
     }
+    
 
     /**
      * @return the document
@@ -51,4 +52,9 @@ public class Posting {
         this.term = term;
     }
 
+    @Override
+    public int compareTo(Posting o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
