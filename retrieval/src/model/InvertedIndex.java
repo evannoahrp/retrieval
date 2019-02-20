@@ -7,6 +7,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -17,16 +18,18 @@ import java.util.function.Consumer;
  * @author admin
  */
 public class InvertedIndex {
+
     private ArrayList<Document> listOfDocument = new ArrayList<Document>();
-    
+    private ArrayList<Term> dictionary = new ArrayList<Term>();
+
     public InvertedIndex() {
     }
-    
-    public void addNewDocument(Document document){
+
+    public void addNewDocument(Document document) {
         listOfDocument.add(document);
     }
-    
-    public ArrayList<Posting> getUnsortedPostingList(){
+
+    public ArrayList<Posting> getUnsortedPostingList() {
         // siapkan posting List
         ArrayList<Posting> list = new ArrayList<Posting>();
         // buat node Posting utk listofdocument
@@ -43,9 +46,18 @@ public class InvertedIndex {
         }
         return list;
     }
-    
-    public ArrayList<Posting> getSortedPostingList(){
-        return null;
+
+    public ArrayList<Posting> getSortedPostingList() {
+        // siapkan posting List
+        ArrayList<Posting> list = new ArrayList<Posting>();
+        // panggil list yang belum terurut
+        list = this.getUnsortedPostingList();
+        // urutkan
+        Collections.sort(list);
+        return list;
     }
-    
+
+    public void makeDictionary() {
+
+    }
 }

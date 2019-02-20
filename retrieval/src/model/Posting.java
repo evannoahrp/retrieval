@@ -9,11 +9,11 @@ package model;
  *
  * @author admin
  */
-public class Posting implements Comparable<Posting>{
+public class Posting implements Comparable<Posting> {
+
     private String term;
     private Document document;
-    
-    
+
     public Posting(Document document) {
         this.document = document;
     }
@@ -22,7 +22,6 @@ public class Posting implements Comparable<Posting>{
         this.term = term;
         this.document = document;
     }
-    
 
     /**
      * @return the document
@@ -53,8 +52,8 @@ public class Posting implements Comparable<Posting>{
     }
 
     @Override
-    public int compareTo(Posting o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int compareTo(Posting posting) {
+        return term.compareToIgnoreCase(posting.getTerm());
     }
-    
+
 }
