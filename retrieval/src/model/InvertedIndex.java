@@ -18,36 +18,34 @@ import java.util.function.Consumer;
  * @author admin
  */
 public class InvertedIndex {
-
     private ArrayList<Document> listOfDocument = new ArrayList<Document>();
     private ArrayList<Term> dictionary = new ArrayList<Term>();
-
     public InvertedIndex() {
     }
-
-    public void addNewDocument(Document document) {
-        listOfDocument.add(document);
+    
+    public void addNewDocument(Document document){
+        getListOfDocument().add(document);
     }
-
-    public ArrayList<Posting> getUnsortedPostingList() {
+    
+    public ArrayList<Posting> getUnsortedPostingList(){
         // siapkan posting List
         ArrayList<Posting> list = new ArrayList<Posting>();
         // buat node Posting utk listofdocument
-        for (int i = 0; i < listOfDocument.size(); i++) {
+        for (int i = 0; i < getListOfDocument().size(); i++) {
             // buat listOfTerm dari document ke -i
-            String[] termResult = listOfDocument.get(i).getListofTerm();
+            String[] termResult = getListOfDocument().get(i).getListofTerm();
             // loop sebanyak term dari document ke i
             for (int j = 0; j < termResult.length; j++) {
                 // buat object tempPosting
                 Posting tempPosting = new Posting(termResult[j],
-                        listOfDocument.get(i));
+                        getListOfDocument().get(i));
                 list.add(tempPosting);
             }
         }
         return list;
     }
-
-    public ArrayList<Posting> getSortedPostingList() {
+    
+    public ArrayList<Posting> getSortedPostingList(){
         // siapkan posting List
         ArrayList<Posting> list = new ArrayList<Posting>();
         // panggil list yang belum terurut
@@ -56,42 +54,105 @@ public class InvertedIndex {
         Collections.sort(list);
         return list;
     }
-
-    public void makeDictionary() {
-        //buat posting list terurut
-        ArrayList<Posting> list = getSortedPostingList();
-        //looping buat list of term (dictionary)
-        for (int i = 0; i < list.size(); i++) {
-            //cek dictionary kosong?
-            if (dictionary.isEmpty()) {
-                //buat term
-                Term term = new Term(list.get(i).getTerm());
-                //tambah posting ke posting list utk term ini
-                term.getPostingList().add(list.get(i));
-
-            } else {
-                //dictionary sudah ada isinya
-                Term tempTerm = new Term(list.get(i).getTerm());
-                //pembandingan apakah term sudah ada atau belum
-                //luaran dari binarysearch adalah posisi
-                int position = Collections.binarySearch(dictionary, tempTerm);
-                if (position < 0) {
-                    //term baru
-                    //tambah postinglist ke term
-                    tempTerm.getPostingList().add(list.get(i));
-                    //tambahkan term ke dictionary
-                    dictionary.add(tempTerm);
-                } else {
-                    //term ada
-                    //tambahkan postinglist saja dari existing term
-                    dictionary.get(position).getPostingList().add(list.get(i));
-                    //urutkan postinglistnya
-                    Collections.sort(dictionary.get(position).getPostingList());
-                    
-                }
-                //urutkan term dictionary
-                Collections.sort(dictionary);
+    /**
+     * Fungsi cari dokumen
+     * @param query
+     * @return 
+     */
+    public ArrayList<Posting> search(String query){
+        // buat index/dictionary
+        makeDictionary();
+        String tempQuery[] = query.split(" ");
+        for (int i = 0; i < tempQuery.length; i++) {
+            String string = tempQuery[i];
+            
+        }
+        return null;
+    }
+    
+    public ArrayList<Posting> searchOneWord(String word){
+        Term tempTerm = new Term(word);
+        if(getDictionary().isEmpty()){
+            // dictionary kosong
+            return null;
+        } else{
+            int positionTerm = Collections.binarySearch(dictionary,tempTerm);
+            if(positionTerm<0){
+                // tidak ditemukan
+                return null;
+            } else{
+                return dictionary.get(positionTerm).getPostingList();
             }
         }
+    }
+    
+    public void makeDictionary(){
+        // buat posting list term terurut
+        ArrayList<Posting> list = getSortedPostingList();
+        // looping buat list of term (dictionary)
+        for (int i = 0; i < list.size(); i++) {
+            // cek dictionary kosong?
+            if(getDictionary().isEmpty()){
+                // buat term
+                Term term = new Term(list.get(i).getTerm());
+                // tambah posting ke posting list utk term ini
+                term.getPostingList().add(list.get(i));
+                // tambah ke dictionary
+                getDictionary().add(term);
+            } else{
+                // dictionary sudah ada isinya
+                Term tempTerm = new Term(list.get(i).getTerm());
+                // pembandingan apakah term sudah ada atau belum
+                // luaran dari binarysearch adalah posisi
+                int position= Collections.binarySearch(getDictionary(), tempTerm);
+                if(position<0){
+                    // term baru
+                    // tambah postinglist ke term
+                    tempTerm.getPostingList().add(list.get(i));
+                    // tambahkan term ke dictionary
+                    getDictionary().add(tempTerm);
+                } else{
+                    // term ada
+                    // tambahkan postinglist saja dari existing term
+                    getDictionary().get(position).
+                            getPostingList().add(list.get(i));
+                    // urutkan posting list
+                    Collections.sort(getDictionary().get(position)
+                            .getPostingList());
+                }
+                // urutkan term dictionary
+                Collections.sort(getDictionary());
+            }
+            
+        }
+        
+    }
+
+    /**
+     * @return the listOfDocument
+     */
+    public ArrayList<Document> getListOfDocument() {
+        return listOfDocument;
+    }
+
+    /**
+     * @param listOfDocument the listOfDocument to set
+     */
+    public void setListOfDocument(ArrayList<Document> listOfDocument) {
+        this.listOfDocument = listOfDocument;
+    }
+
+    /**
+     * @return the dictionary
+     */
+    public ArrayList<Term> getDictionary() {
+        return dictionary;
+    }
+
+    /**
+     * @param dictionary the dictionary to set
+     */
+    public void setDictionary(ArrayList<Term> dictionary) {
+        this.dictionary = dictionary;
     }
 }
